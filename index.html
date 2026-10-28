@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' https://cdn.jsdelivr.net; style-src 'self'; img-src 'self' data:; media-src 'self' blob:; connect-src 'self' ws://127.0.0.1:5173 https://cdn.jsdelivr.net https://storage.googleapis.com; worker-src 'self' blob:"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/src/style.css" />
+    <title>CamVR</title>
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">⌖</div>
+          <div>
+            <p class="eyebrow">RASTREAMENTO POR WEBCAM</p>
+            <h1>CamVR</h1>
+          </div>
+        </div>
+        <div class="connection-pill" id="driver-status" data-state="disconnected">
+          <span class="status-dot"></span>
+          <span id="driver-status-label">Driver SteamVR desconectado</span>
+        </div>
+      </header>
+
+      <section class="workspace">
+        <div class="camera-panel">
+          <div class="camera-frame">
+            <video id="camera" autoplay muted playsinline></video>
+            <canvas id="overlay"></canvas>
+            <div class="camera-placeholder" id="camera-placeholder">
+              <div class="camera-icon">◎</div>
+              <strong id="camera-message-title">Conecte uma câmera</strong>
+              <span id="camera-message">Se estiver usando DroidCam, abra o aplicativo no celular e no PC, conecte os dois e selecione a câmera DroidCam aqui.</span>
+              <button class="button button-primary camera-connect" id="camera-connect">Permitir e conectar câmera</button>
+            </div>
+            <div class="camera-badge" id="camera-label" data-state="waiting">CÂMERA DESCONECTADA</div>
+          </div>
+          <div class="camera-footer">
+            <div>
+              <span class="micro-label">GESTO DE CLIQUE</span>
+              <strong>Pinça entre polegar e indicador</strong>
+            </div>
+            <label class="camera-picker">
+              <span class="micro-label">FONTE DE VÍDEO</span>
+              <select id="camera-select" aria-label="Selecionar câmera">
+                <option value="">Câmera padrão</option>
+              </select>
+            </label>
+            <button class="button button-quiet" id="camera-retry">Conectar câmera</button>
+            <button class="button button-quiet" id="recenter-button">Recentralizar</button>
+          </div>
+        </div>
+
+        <aside class="control-panel">
+          <div class="panel-heading">
+            <p class="eyebrow">DISPOSITIVOS VIRTUAIS</p>
+            <h2>Rastreamento</h2>
+          </div>
+
+          <div class="tracking-list">
+            <div class="tracking-row" id="head-row" data-state="waiting">
+              <span class="tracking-icon">◉</span>
+              <div><strong>Cabeça</strong><span id="head-state">Aguardando rosto</span></div>
+              <span class="status-dot"></span>
+            </div>
+            <div class="tracking-row" id="left-row" data-state="waiting">
+              <span class="tracking-icon">↙</span>
+              <div><strong>Mão esquerda</strong><span id="left-state">Aguardando mão</span></div>
+              <span class="status-dot"></span>
+            </div>
+            <div class="tracking-row" id="right-row" data-state="waiting">
+              <span class="tracking-icon">↘</span>
+              <div><strong>Mão direita</strong><span id="right-state">Aguardando mão</span></div>
+              <span class="status-dot"></span>
+            </div>
+          </div>
+
+          <div class="gesture-card">
+            <div class="gesture-title"><span class="gesture-dot"></span> Pinça detectada</div>
+            <p>Feche polegar e indicador para acionar o gatilho do controle.</p>
+            <div class="pinch-meter"><span id="pinch-meter-fill"></span></div>
+            <span class="micro-label" id="pinch-state">MÃO DIREITA · SOLTA</span>
+          </div>
+
+          <div class="vr-control">
+            <div>
+              <strong>Modo VR</strong>
+              <span id="vr-state">Aguardando rastreamento</span>
+            </div>
+            <button class="button button-primary" id="vr-toggle">Ligar VR</button>
+          </div>
+
+          <div class="notice">
+            <strong>Driver experimental</strong>
+            <p>O app envia poses ao SteamVR. A compatibilidade com Roblox depende do suporte VR do cliente instalado.</p>
+          </div>
+        </aside>
+      </section>
+
+      <footer class="app-footer">
+        <span>CamVR · protótipo OpenVR</span>
+        <span id="fps-label">Aguardando inicialização</span>
+      </footer>
+    </main>
+    <div class="toast" id="toast" role="status" aria-live="polite" data-visible="false"></div>
+    <script type="module" src="/src/renderer.js"></script>
+  </body>
+</html>

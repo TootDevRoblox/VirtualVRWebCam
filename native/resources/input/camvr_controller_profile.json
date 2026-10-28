@@ -1,0 +1,16 @@
+{
+  "jsonid": "input_profile",
+  "controller_type": "vive_controller",
+  "input_bindingui_mode": "controller_handed",
+  "input_source": {
+    "/input/trigger": {
+      "type": "trigger",
+      "order": 1
+    },
+    "/input/grip": {
+      "type": "button",
+      "order": 2
+    }
+  },
+  "default_bindings": []
+}
